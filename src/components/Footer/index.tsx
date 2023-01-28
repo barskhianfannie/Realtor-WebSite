@@ -1,38 +1,48 @@
-
+import React from 'react';
+import * as navlogo from '../../public/ydblack.png';
 import Image from 'next/image';
-import * as tax from '../../public/taxdtco.png';
-import Link from 'next/link';
 
-const Footer = ()=>{
-return (
-<footer className="p-4 rounded-lg  md:px-6 md:py-8 dark:bg-gray-900 relative mx-auto  w-5/6">
-    <div className="sm:flex sm:items-center sm:justify-between">
-        <Link href="https://flowbite.com/" className="flex items-center mb-4 sm:mb-0">        </Link>
-        <div className='flex justify-center'>
-        <Image src={tax} height={50} width={50} />
+export default function Footer({ fixed }: any) {
+  const [navbarOpen, setNavbarOpen] = React.useState(false);
+
+  return (
+    <>
+      <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+        <div className="mx-auto max-w-screen-xl text-center">
+          <a
+            href="#"
+            className="flex justify-center items-center text-2xl font-semibold text-gray-900 dark:text-white"
+          ></a>
+          <p className="my-6 text-gray-500 dark:text-gray-400">
+            Los Angeles Realtor
+          </p>
+          <ul className="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+            <li>
+              <a href="#" className="mr-4 hover:underline md:mr-6 ">
+                Services
+              </a>
+            </li>
+            <li>
+              <a href="#" className="mr-4 hover:underline md:mr-6">
+                Portfolio
+              </a>
+            </li>
+            <li>
+              <a href="#" className="mr-4 hover:underline md:mr-6 ">
+                Contact
+              </a>
+            </li>
+            <li>
+              <a href="#" className="mr-4 hover:underline md:mr-6">
+                Blog
+              </a>
+            </li>
+          </ul>
+          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+            © 2023 Yesenia Diaz
+          </span>
         </div>
-        <ul className="flex items-center justify-center my-2 text-sm text-gray-500 sm:mb-0 dark:text-gray-400">
-            <li>
-            <div className={'mr-4'}>
-
-                <Link href="/forms" className="mr-4 hover:underline md:mr-6 ">Forms</Link>
-                </div>
-
-            </li>
-            <li>
-            <div className={'mr-4'}>
-
-                <Link href="/" className="mr-4 hover:underline md:mr-6">Contact</Link>
-                </div>
-
-            </li>
-
-        </ul>
-    </div>
-    <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">©<Link href="/" className="hover:underline">Downey Tax Company</Link>. All Rights Reserved.
-    </span>
-</footer>
-
-)
+      </footer>
+    </>
+  );
 }
-export default Footer;

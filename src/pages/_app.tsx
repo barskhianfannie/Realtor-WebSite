@@ -11,8 +11,8 @@ import Head from "next/head";
 function MyApp({ Component, pageProps }:any) {
   return (
     <TransitionLayout>
-            <Head>
-        <title>Downey Tax Company | Professional Tax Services</title>
+      <Head>
+        <title>Yesenia Diaz | Realtor</title>
       </Head>
       <Navbar/>
       <Component {...pageProps} />
@@ -21,6 +21,6 @@ function MyApp({ Component, pageProps }:any) {
   );
 }
 
-MyApp.displayName = 'Downey Tax Company';
+MyApp.displayName = 'Yesenia Diaz Realtor';
 
 export default MyApp;
