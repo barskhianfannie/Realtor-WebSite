@@ -1,6 +1,6 @@
 import * as lahero from '../../public/losangeles.gif';
 import Image from 'next/image';
-const MainHero=()=>{
+const LABackdropVideoSection =()=>{
   return (
     <section className="bg-white dark:bg-gray-900">
               <div className="">
@@ -9,4 +9,4 @@ const MainHero=()=>{
 </section>
   )
 };
-export default MainHero;
+export default LABackdropVideoSection;
