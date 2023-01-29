@@ -6,7 +6,6 @@ import * as React from 'react';
 import Navbar from '../components/navbar';
 import Footer from '../components/Footer';
 import Head from 'next/head';
-import Script from 'next/script';
 //Front of the page
 function MyApp({ Component, pageProps }: any) {
   return (
@@ -15,7 +14,7 @@ function MyApp({ Component, pageProps }: any) {
         <title>Yesenia Diaz | Realtor</title>
       </Head>
       <div className="bg-white">
-        <div className="relative mx-auto  w-5/6 lg:max-w-7xl">
+        <div className="relative mx-auto  w-5/6 lg:max-w-7xl bg-white">
           <Navbar />
           <Component {...pageProps} />
       <Footer />
