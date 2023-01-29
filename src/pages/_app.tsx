@@ -7,7 +7,7 @@ import Navbar from '../components/navbar';
 import Footer from '../components/Footer';
 import Head from 'next/head';
 import Script from 'next/script';
-
+//Front of the page
 function MyApp({ Component, pageProps }: any) {
   return (
     <TransitionLayout>
