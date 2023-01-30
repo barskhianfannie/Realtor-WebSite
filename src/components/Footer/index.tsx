@@ -17,6 +17,16 @@ export default function Footer({ fixed }: any) {
           />
           {/* Usually we dont want to use a tag's but its okay here- im being lazy and dont want to style them. */}
           <ul className="flex flex-wrap justify-center items-center mb-1 text-gray-900 dark:text-white">
+          <li>
+              <a href="/" className="mr-4 hover:underline md:mr-6 ">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="/services" className="mr-4 hover:underline md:mr-6 ">
+                Services
+              </a>
+            </li>
             <li>
               <a href="/contact" className="mr-4 hover:underline md:mr-6 ">
                 Contact
