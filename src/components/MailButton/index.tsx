@@ -15,7 +15,7 @@ const [message, setMessage] = useState("");
 const sendMail = async () => {
     try {
         setMessage("Sending.....");
-        const response = await fetch(`http://localhost:3000/api/follow-up/?firstName=${firstName}&lastName=${lastName}&emailUser=${emailUser}&phoneUser=${phone}`);
+        const response = await fetch(`http://localhost:3000/api/followup/?firstName=${firstName}&lastName=${lastName}&emailUser=${emailUser}&phoneUser=${phone}&type=${type}`);
         const body = await response.json();
         if (body.ok) {
             setMessage("Thanks! I will reach out to you shortly!");
