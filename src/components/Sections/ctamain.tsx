@@ -10,9 +10,14 @@ const CTAMainSection = () =>{
   return(
     <section className="bg-white dark:bg-gray-900">
     <div className="py-2 px-2 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
-        <h1 className="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Los Angeles Realtor</h1>
         <p className="mb-8 text-sm font-light italic text-gray-500 lg:text-xl sm:px-1 xl:px-20 dark:text-gray-400">
         My business is built upon a foundation of service. <br></br> I am dedicated to my clients and go above and beyond to meet their needs.
+          </p>
+          <h3 className="mb-4 text-md font-extrabold tracking-tight leading-none text-gray-900 md:text-4xl lg:text-4xl dark:text-white">My business philosophy is…</h3>
+          <p className="mb-8 text-sm font-light italic text-gray-500 lg:text-xl sm:px-1 xl:px-20 dark:text-gray-400">
+          Fiduciary duty comes first, always.<br></br>
+          Be direct.<br></br>
+          Manage every client with care, respect, honesty, and professionalism. <br></br>
           </p>
           <div className="flex justify-center min-w-min">
             <div className="flex p-3 px-4 rounded-3xl shadow flex-col mb-8  bg-gray-100 border-2">
