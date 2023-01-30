@@ -12,6 +12,7 @@ export default async function checkUserAPI(request, response) {
   } = request;
 
   const result = await sendMail('barskhianfannie@gmail.com', subject, fullname, emailUser, phone, type);
+
   response.json(result);
 }
 
