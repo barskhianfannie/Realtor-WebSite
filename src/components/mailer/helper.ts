@@ -18,7 +18,7 @@ const adminMail = 'elevatedbizconsulting@gmail.com';
 const transporter = nodemailer.createTransport({
   SES: ses,
 });
-export const MailerTemplate= async (
+export const MailerTemplate = async (
   userEmail,
   firstName,
   lastName,

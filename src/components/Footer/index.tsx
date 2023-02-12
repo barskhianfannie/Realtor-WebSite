@@ -1,10 +1,15 @@
 import React from 'react';
 import * as navlogo from '../../public/ydblack.png';
 import Image from 'next/image';
+import { useContext } from 'react';
+import { PageContext } from '@utils/contexts';
+import { ENGLISH_NAV, SPANISH_NAV } from '@config/header';
+
 
 export default function Footer({ fixed }: any) {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
-
+  const { language:{language}, setLanguage } = useContext(PageContext);
+  const configuredLanguageContent = language === 'English' ? ENGLISH_NAV : SPANISH_NAV;
   return (
     <>
       <footer className="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
@@ -19,17 +24,17 @@ export default function Footer({ fixed }: any) {
           <ul className="flex flex-wrap justify-center items-center mb-1 text-gray-900 dark:text-white">
           <li>
               <a href="/" className="mr-4 hover:underline md:mr-6 ">
-                Home
+                {configuredLanguageContent[0]}
               </a>
             </li>
             <li>
               <a href="/services" className="mr-4 hover:underline md:mr-6 ">
-                Services
+              {configuredLanguageContent[1]}
               </a>
             </li>
             <li>
               <a href="/contact" className="mr-4 hover:underline md:mr-6 ">
-                Contact
+              {configuredLanguageContent[2]}
               </a>
             </li>
           </ul>
