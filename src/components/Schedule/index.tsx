@@ -1,55 +1,35 @@
 
 import { useMemo, useState } from 'react';
-import MailButton from '@components/MailButton';
 import Image from 'next/image';
 import * as help from '../../public/help.png';
+import {PersonObject, EventObject } from '../../types/index';
+import { useRouter,  } from 'next/router';
 
-// This is our type
-interface ContactParams {
-  firstName: string;
-  lastName:string;
-  phone: string;
-  email: string;
-  selling: boolean;
-  refinancing: boolean;
-  report: boolean;
-  other: boolean;
-}
+      
+
 
 /*
 This component is what you see on the /contact page. It will handle the form functionality. 
 */
 const ScheduleCard = () => {
+  const API_KEY = process.env.NEXT_PUBLIC_FOLLOW_UP_BOSS;
   // This state is the object used to capture what the user is inputting into the contact form. 
-  const [request, setRequest] = useState<ContactParams>({
-    firstName: '',
-    lastName:'',
-    phone: '',
-    email: '',
-    selling: false,
-    refinancing: false,
-    report: false,
-    other: false,
+  const [requestProps, setRequestProps] = useState<EventObject>({
+    source:'Website',
+    type:'',
+    person: {firstName:'', lastName:'', emails:[{value:''}], phones:[{value:''}]} as PersonObject,
   });
 
-  const ContactTypeStringForEmail = useMemo(()=>{
-    if (request.selling && request.refinancing && request.report) {
-      return 'Selling Inquiry with Free Valuation Report';
-    } else if (request.refinancing && request.report) {
-      return 'Refinancing Inquiry with Free Valuation Report';
-    } else if (request.refinancing && request.selling) {
-      return 'Selling and Refinancing Inquiry';
-    } else if (request.report) {
-      return 'Free Valuation Report Only';
-    } else if (request.refinancing) {
-      return 'Refinancing Inquiry Only';
-    } else if (request.selling) {
-      return 'Selling Inquiry Only';
-    } else if (request.other) {
-      return 'Other Inquiry Only';
-    }
-  },[request.selling, request.refinancing, request.report, request.other]);
-
+  const options = {
+    method: 'PUT',
+    headers: {accept: 'application/json', Authorization:`Basic ${API_KEY}:`},
+  
+    query: JSON.stringify({source: 'Website', type:requestProps.type, person:{firstName: requestProps.person.firstName, lastName:requestProps.person.lastName, stage:'LEAD', source:'Website', email:{value: requestProps.person.emails[0].value}, phone:{value:requestProps.person.phones[0].value}}})
+  };
+  const router = useRouter();
+  const submitRequest =async ()=>{
+    const response = await  fetch('https://api.followupboss.com/v1/events');
+  }
   return (
     <div className="md:mx-10 lg:mx-40">
       <div className="grid gap-6 mb-6 md:grid-cols-2">
@@ -62,9 +42,9 @@ const ScheduleCard = () => {
           </label>
           <input
             type="text"
-            value={request.firstName}
+            value={requestProps.person.firstName}
             onInput={(e) => {
-              setRequest({ ...request, firstName: e.currentTarget.value });
+              setRequestProps({ ...requestProps, person:{...requestProps.person, firstName: e.currentTarget.value }});
             }}
             id="first-name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -81,9 +61,9 @@ const ScheduleCard = () => {
           </label>
           <input
             type="text"
-            value={request.lastName}
+            value={requestProps.person.lastName}
             onInput={(e) => {
-              setRequest({ ...request, lastName: e.currentTarget.value });
+              setRequestProps({ ...requestProps, person:{...requestProps.person, lastName: e.currentTarget.value }});
             }}
             id="last-name"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -102,9 +82,9 @@ const ScheduleCard = () => {
           <input
             type="number"
             onInput={(e) => {
-              setRequest({ ...request, phone: e.currentTarget.value });
+              setRequestProps({ ...requestProps, person:{...requestProps.person, phones: [{value: e.currentTarget.value, type:'', isPrimary:true }]}});
             }}
-            value={request.phone}
+            value={requestProps.person.phones[0].value}
             id="phone"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Phone Number*"
@@ -123,9 +103,9 @@ const ScheduleCard = () => {
         <input
           type="email"
           onInput={(e) => {
-            setRequest({ ...request, email: e.currentTarget.value });
+            setRequestProps({ ...requestProps, person:{...requestProps.person, emails: [{value: e.currentTarget.value, type:'', isPrimary:true }]}});
           }}
-          value={request.email}
+          value={requestProps.person.emails[0].value}
           id="email"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Email*"
@@ -145,11 +125,11 @@ const ScheduleCard = () => {
           <input
             id="selling"
             type="checkbox"
-            checked={request.selling}
+            checked={requestProps.type === 'Selling'}
             onChange={() => {
-              setRequest({
-                ...request,
-                selling: request.selling ? false : true,
+              setRequestProps({
+                ...requestProps,
+                 type: requestProps.type === 'Free PVR' ? 'Selling(PVR)' : 'Selling',
               });
             }}
             className="  w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
@@ -166,11 +146,11 @@ const ScheduleCard = () => {
           <input
             id="refinance"
             type="checkbox"
-            checked={request.refinancing}
+            checked={requestProps.type === 'Refinance'}
             onChange={() => {
-              setRequest({
-                ...request,
-                refinancing: request.refinancing ? false : true,
+              setRequestProps({
+                ...requestProps,
+                type: requestProps.type === 'Free PVR' ? 'Refinance(PVR)' : 'Refinance',
               });
             }}
             className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
@@ -183,14 +163,35 @@ const ScheduleCard = () => {
             Refinancing Inquiry
           </label>
       </div>
+      <div className="flex items-start mb-2 ml-2">
+          <input
+            id="buying"
+            type="checkbox"
+            checked={requestProps.type === 'Buying'}
+            onChange={() => {
+              setRequestProps({
+                ...requestProps,
+                type: requestProps.type === 'Free PVR' ? 'Buying(PVR)' : 'Buying',
+              });
+            }}
+            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+            required
+          />
+          <label
+            htmlFor="buying"
+            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Buying Inquiry
+          </label>
+      </div>
 
       <div className="flex items-start mb-2  ml-2">
           <input
             id="report"
             type="checkbox"
-            checked={request.report}
+            checked={requestProps.type === 'Selling(PVR)' ||requestProps.type === 'Buying(PVR)' || requestProps.type == 'Free PVR' || requestProps.type == 'Refinancing(PVR)'  }
             onChange={() => {
-              setRequest({ ...request, report: request.report ? false : true });
+              setRequestProps({ ...requestProps, type: requestProps.type === '' ? 'Free PVR' : requestProps.type === 'Selling' ? 'Selling(PVR)' : requestProps.type === 'Buying' ?  'Buying(PVR)' : requestProps.type === 'Refinancing' ?  'Refinancing(PVR)' : ''});
             }}
             className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
             required
@@ -202,36 +203,13 @@ const ScheduleCard = () => {
             Free Property Valuation Report
           </label>
       </div>
-      <div className="flex items-start mb-2  ml-2">
-          <input
-            id="other"
-            type="checkbox"
-            checked={request.other}
-            onChange={() => {
-              setRequest({ ...request, other: request.other ? false : true });
-            }}
-            className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-            required
-          />
-          <label
-            htmlFor="other"
-            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Other
-          </label>
-      </div>
       </div>
       </div>
       <div className="mx-auto w-1/2 lg:w-1/4">
-        <MailButton
-          firstName={request.firstName}
-          lastName={request.lastName}
-          phone={request.phone}
-          emailUser={request.email}
-          type={ContactTypeStringForEmail}
-          subject={'Contact Request'}
-          buttonText={'Contact Me'}
-        />
+      <button className="uppercase text-sm font-bold tracking-wide bg-gray-500 text-gray-100 p-3 rounded-lg w-full 
+                      focus:outline-none focus:shadow-outline" onClick={()=>{submitRequest()}}>
+                        Submit Contact Request
+            </button>
       </div>
     </div>
   );
